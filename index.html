@@ -1,0 +1,160 @@
+><!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>رسالة غامضة</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    background: radial-gradient(circle, #0f2027, #203a43, #2c5364);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Tahoma, Arial, sans-serif;
+    color: white;
+    overflow: hidden;
+}
+
+/* الكرت */
+.card {
+    background: rgba(0,0,0,0.65);
+    padding: 30px;
+    width: 350px;
+    border-radius: 25px;
+    text-align: center;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.7);
+    animation: pop 1s ease;
+}
+
+@keyframes pop {
+    from { transform: scale(0.7); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+h1 {
+    margin-bottom: 15px;
+}
+
+p {
+    font-size: 17px;
+    line-height: 1.8;
+}
+
+button {
+    margin-top: 20px;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 30px;
+    background: linear-gradient(135deg, #ff416c, #ff4b2b);
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.1);
+}
+
+/* القلوب */
+.heart {
+    position: fixed;
+    bottom: -10px;
+    font-size: 20px;
+    animation: float 6s linear infinite;
+    opacity: 0.8;
+}
+
+@keyframes float {
+    from {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(-100vh) scale(1.5);
+        opacity: 0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="card" id="content">
+    <h1>😶‍🌫️ يا منية انتبهي</h1>
+    <p>
+        في أشياء عنك  
+        ما يعرفها غير شخص واحد…  
+        <br><br>
+        وأنا أعرفها 🙂
+    </p>
+    <button onclick="nextStep()">كمّل</button>
+</div>
+
+<script>
+let step = 0;
+
+function nextStep() {
+    const content = document.getElementById("content");
+
+    if (step === 0) {
+        content.innerHTML = `
+            <h1>⏳</h1>
+            <p>
+                هل تظنين أن كل شيء  
+                يبقى مخفيًا؟
+                <br><br>
+                بعد لحظات  
+                سيظهر كل شيء…
+            </p>
+            <button onclick="nextStep()">أنا جاهزة</button>
+        `;
+        step++;
+    } 
+    else if (step === 1) {
+        content.innerHTML = `
+            <h1>😈</h1>
+            <p>
+                يتم جمع المعلومات…  
+                <br><br>
+                الرجاء عدم إغلاق الصفحة
+            </p>
+            <button onclick="nextStep()">تابعي</button>
+        `;
+        step++;
+    } 
+    else {
+        content.innerHTML = `
+            <h1>😂😂😂</h1>
+            <p>
+                ولا سر ولا شي مايفرندوو  
+                بس مقلب خفيف  
+                <br><br>
+                الحقيقة؟
+                <br>
+                أنتِ شخص لطيف  
+                وتستاهلين الضحكة 🤍
+            </p>
+            <button onclick="alert('تمت المهمة بنجاح 😎')">انتهى</button>
+        `;
+    }
+}
+
+/* قلوب للتأثير */
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "🤍";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (4 + Math.random() * 3) + "s";
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 7000);
+}
+setInterval(createHeart, 600);
+</script>
+
+</body>
+</html\> 
