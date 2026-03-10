@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>لعبة منى</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#ffe6f2;
+text-align:center;
+padding:40px;
+}
+
+.box{
+background:white;
+padding:30px;
+border-radius:15px;
+max-width:600px;
+margin:auto;
+}
+
+button{
+display:block;
+margin:10px auto;
+padding:10px 25px;
+border:none;
+border-radius:10px;
+background:#ff4da6;
+color:white;
+cursor:pointer;
+}
+
+button:hover{
+background:#e60073;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+<h2 id="question"></h2>
+
+<div id="answers"></div>
+
+<p id="result"></p>
+
+</div>
+
+<script>
+
+let questions = [
+
+{q:"ما هو لوني المفضل؟",a:["الأزرق","الأحمر","الأسود"],c:0},
+
+{q:"ما هي أكلتي المفضلة؟",a:["بيتزا","برجر","مكرونة"],c:1},
+
+{q:"ما مشروبي المفضل؟",a:["عصير","قهوة","شاي"],c:2},
+
+{q:"ماذا أحب أكثر؟",a:["الألعاب","النوم","الدراسة"],c:0},
+
+{q:"ما هو فصلي المفضل؟",a:["الشتاء","الصيف","الربيع"],c:0},
+
+{q:"ما الحيوان الذي أحبه؟",a:["قط","كلب","حصان"],c:0},
+
+{q:"ماذا أفعل في وقت الفراغ؟",a:["ألعب","أنام","أخرج"],c:0},
+
+{q:"ما هو الشيء الذي يزعجني؟",a:["الكذب","الانتظار","الحر"],c:0},
+
+{q:"كم ساعة أنام؟",a:["5","8","10"],c:1},
+
+{q:"ما لوني الثاني المفضل؟",a:["أبيض","أسود","أخضر"],c:1},
+
+{q:"ماذا أحب أكثر؟",a:["الأفلام","الألعاب","الكتب"],c:1},
+
+{q:"أين أحب السفر؟",a:["البحر","الجبال","المدينة"],c:0},
+
+{q:"ما أكثر شيء يجعلني أضحك؟",a:["المزاح","الفيديوهات","الأصدقاء"],c:0},
+
+{q:"ما أكثر شيء أحبه في منى؟",a:["ضحكتها","ذكاؤها","طيبتها"],c:2},
+
+{q:"هل منى صديقتي المفضلة؟",a:["نعم","ربما","لا"],c:0}
+
+];
+
+let current=0;
+let score=0;
+
+function showQuestion(){
+
+let q=questions[current];
+
+document.getElementById("question").innerText=q.q;
+
+let answersHTML="";
+
+q.a.forEach((ans,i)=>{
+answersHTML+=`<button onclick="answer(${i})">${ans}</button>`;
+});
+
+document.getElementById("answers").innerHTML=answersHTML;
+
+}
+
+function answer(i){
+
+if(i==questions[current].c){
+score++;
+}
+
+current++;
+
+if(current<questions.length){
+showQuestion();
+}else{
+showResult();
+}
+
+}
+
+function showResult(){
+
+let text="";
+
+if(score<=5){
+text="😅 يبدو أن منى لا تعرفني جيدًا";
+}
+else if(score<=10){
+text="🙂 منى تعرفني قليلًا";
+}
+else{
+text="💖 منى تعرفني جيدًا!";
+}
+
+document.getElementById("question").innerText="النتيجة";
+document.getElementById("answers").innerHTML="";
+document.getElementById("result").innerText=text+" ( "+score+" / 15 )";
+
+}
+
+showQuestion();
+
+</script>
+
+</body>
+</html>
