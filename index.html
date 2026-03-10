@@ -1,135 +1,245 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>رسالة إلى منى</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>اختبار هل تعرفني؟</title>
 
 <style>
+/* ===== الأساسيات ===== */
+*{box-sizing:border-box}
 body{
-    margin:0;
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    flex-direction:column;
-    font-family:Arial;
-    color:white;
-    background: radial-gradient(circle at center,#0f2027,#203a43,#2c5364);
-    overflow:hidden;
+  margin:0;
+  font-family: "Segoe UI", Tahoma, Arial;
+  color:#fff;
+  height:100vh;
+  overflow:hidden;
+  background: radial-gradient(circle at 30% 20%, #1a0933, #05050a 70%);
 }
 
-/* نجوم بالخلفية */
-.stars{
-    position:absolute;
-    width:100%;
-    height:100%;
-    background-image:radial-gradient(white 1px, transparent 1px);
-    background-size:40px 40px;
-    opacity:0.15;
+/* ===== خلفية الفضاء المتحركة ===== */
+#stars{
+  position:fixed;
+  inset:0;
+  z-index:-2;
 }
 
-/* القلب */
+/* ضباب/طاقة غامضة */
+.nebula{
+  position:fixed;
+  inset:-20%;
+  z-index:-1;
+  background:
+   radial-gradient(circle at 40% 30%, rgba(140,0,255,0.35), transparent 50%),
+   radial-gradient(circle at 70% 70%, rgba(0,140,255,0.25), transparent 55%);
+  filter: blur(60px);
+  animation: nebulaMove 18s infinite alternate ease-in-out;
+}
+
+@keyframes nebulaMove{
+  0%{transform:scale(1) translate(0,0)}
+  100%{transform:scale(1.2) translate(-5%,5%)}
+}
+
+/* ===== المحتوى ===== */
+.container{
+  text-align:center;
+  max-width:700px;
+  margin:auto;
+  padding-top:60px;
+}
+
+/* توهج النص */
+h1{
+  font-size:42px;
+  margin-bottom:10px;
+  text-shadow:0 0 15px #9a4dff,0 0 30px #4da6ff;
+}
+
+.subtitle{
+  opacity:.8;
+  margin-bottom:30px;
+}
+
+/* ===== القلب ثلاثي الشكل ===== */
 .heart{
-    width:120px;
-    height:120px;
-    background:red;
-    transform:rotate(-45deg);
-    position:relative;
-    animation:beat 1s infinite;
-    cursor:pointer;
+  width:120px;
+  height:120px;
+  background:#ff2b6a;
+  transform: rotate(-45deg);
+  margin:40px auto;
+  position:relative;
+  animation:beat 1s infinite;
+  box-shadow:0 0 30px #ff2b6a;
+  cursor:pointer;
 }
 
 .heart:before,
 .heart:after{
-    content:"";
-    width:120px;
-    height:120px;
-    background:red;
-    border-radius:50%;
-    position:absolute;
+  content:"";
+  width:120px;
+  height:120px;
+  background:#ff2b6a;
+  border-radius:50%;
+  position:absolute;
 }
 
-.heart:before{
-    top:-60px;
-    left:0;
-}
-
-.heart:after{
-    left:60px;
-    top:0;
-}
+.heart:before{top:-60px;left:0}
+.heart:after{left:60px;top:0}
 
 @keyframes beat{
-    0%{transform:rotate(-45deg) scale(1);}
-    50%{transform:rotate(-45deg) scale(1.15);}
-    100%{transform:rotate(-45deg) scale(1);}
+  0%{transform:rotate(-45deg) scale(1)}
+  50%{transform:rotate(-45deg) scale(1.15)}
+  100%{transform:rotate(-45deg) scale(1)}
 }
 
-/* كسر القلب */
 .broken{
-    animation:break 1.5s forwards;
+  animation:breakHeart 1.2s forwards;
 }
 
-@keyframes break{
-    0%{opacity:1;}
-    100%{
-        transform:rotate(-45deg) scale(0.3);
-        opacity:0;
-    }
+@keyframes breakHeart{
+  0%{transform:rotate(-45deg) scale(1)}
+  100%{
+    transform:rotate(-45deg) scale(.2);
+    opacity:0;
+  }
 }
 
-/* الرسالة */
-#message{
-    display:none;
-    text-align:center;
-    font-size:28px;
-    margin-top:40px;
-    animation:fade 3s;
+/* ===== الاختبار ===== */
+.quiz{
+  display:none;
+  margin-top:20px;
 }
 
-@keyframes fade{
-    from{opacity:0; transform:translateY(20px);}
-    to{opacity:1; transform:translateY(0);}
+.question{
+  font-size:22px;
+  margin-bottom:15px;
 }
 
-h1{
-    font-size:40px;
-    margin-bottom:30px;
-    text-shadow:0 0 20px rgba(255,255,255,0.6);
+button{
+  background:#1b1b3a;
+  color:white;
+  border:1px solid #6a4dff;
+  padding:12px 22px;
+  margin:6px;
+  border-radius:10px;
+  cursor:pointer;
+  font-size:16px;
+  transition:.3s;
+  box-shadow:0 0 10px rgba(106,77,255,0.6);
+}
+
+button:hover{
+  transform:scale(1.1);
+  box-shadow:0 0 25px #6a4dff;
+}
+
+/* ===== الرسالة النهائية ===== */
+#finalMessage{
+  display:none;
+  margin-top:25px;
+  font-size:24px;
+  animation:fadeIn 2s;
+  text-shadow:0 0 20px #ff4dff;
+}
+
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(20px)}
+  to{opacity:1; transform:translateY(0)}
 }
 
 </style>
 </head>
-
 <body>
 
-<div class="stars"></div>
+<canvas id="stars"></canvas>
+<div class="nebula"></div>
 
-<h1>رسالة إلى منى</h1>
+<div class="container">
 
-<div class="heart" onclick="breakHeart()" id="heart"></div>
+<h1>اختبار سري لمنية</h1>
+<div class="subtitle">هل تعرفينني حقاً؟ اضغطي على القلب لبدء الاختبار</div>
 
-<div id="message">
-💔 أحياناً يجب أن نترك بعض المشاعر تمضي...<br><br>
-منى، ربما محمد ليس الشخص المناسب لك.<br>
-الأفضل أن تبحثي عن شخص يقدّرك ويحبك بصدق.<br><br>
-الحياة مليئة بقلوب تستحق قلبك ❤️
+<div class="heart" id="heart"></div>
+
+<div class="quiz" id="quiz">
+
+<div class="question">ما هو الشيء الذي أحبه أكثر؟</div>
+
+<button onclick="answer(true)">التحدث معك</button>
+<button onclick="answer(false)">النوم</button>
+<button onclick="answer(false)">اللعب</button>
+
+</div>
+
+<div id="finalMessage">
+✨ يبدو أنك تعرفينني جيداً يا منية...  
+ربما بيننا قصة مميزة لم تبدأ بعد 💫
+</div>
+
 </div>
 
 <script>
 
-function breakHeart(){
+/* ===== نجوم متحركة ===== */
+const canvas = document.getElementById("stars");
+const ctx = canvas.getContext("2d");
 
-let heart = document.getElementById("heart");
-heart.classList.add("broken");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-setTimeout(()=>{
-document.getElementById("message").style.display="block";
-},1200);
+let stars = [];
+
+for(let i=0;i<200;i++){
+  stars.push({
+    x:Math.random()*canvas.width,
+    y:Math.random()*canvas.height,
+    r:Math.random()*1.5
+  });
+}
+
+function drawStars(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  ctx.fillStyle="white";
+
+  stars.forEach(s=>{
+    ctx.beginPath();
+    ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+    ctx.fill();
+
+    s.y +=0.2;
+    if(s.y>canvas.height) s.y=0;
+  });
+
+  requestAnimationFrame(drawStars);
+}
+
+drawStars();
+
+/* ===== القلب والاختبار ===== */
+const heart = document.getElementById("heart");
+const quiz = document.getElementById("quiz");
+
+heart.onclick = ()=>{
+  heart.classList.add("broken");
+
+  setTimeout(()=>{
+    quiz.style.display="block";
+  },1000);
+};
+
+function answer(correct){
+
+if(correct){
+ document.getElementById("finalMessage").style.display="block";
+}else{
+ alert("هممم... يبدو أنك لا تعرفينني جيداً 😅");
+}
 
 }
 
 </script>
 
 </body>
-</html>
+    </html>
