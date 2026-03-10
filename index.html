@@ -6,240 +6,249 @@
 <title>اختبار هل تعرفني؟</title>
 
 <style>
-/* ===== الأساسيات ===== */
-*{box-sizing:border-box}
 body{
-  margin:0;
-  font-family: "Segoe UI", Tahoma, Arial;
-  color:#fff;
-  height:100vh;
-  overflow:hidden;
-  background: radial-gradient(circle at 30% 20%, #1a0933, #05050a 70%);
+margin:0;
+font-family:Arial;
+color:white;
+text-align:center;
+background: radial-gradient(circle at center,#14002a,#050510);
+height:100vh;
+overflow:hidden;
 }
 
-/* ===== خلفية الفضاء المتحركة ===== */
-#stars{
-  position:fixed;
-  inset:0;
-  z-index:-2;
+/* النجوم */
+canvas{
+position:fixed;
+top:0;
+left:0;
+z-index:-1;
 }
 
-/* ضباب/طاقة غامضة */
-.nebula{
-  position:fixed;
-  inset:-20%;
-  z-index:-1;
-  background:
-   radial-gradient(circle at 40% 30%, rgba(140,0,255,0.35), transparent 50%),
-   radial-gradient(circle at 70% 70%, rgba(0,140,255,0.25), transparent 55%);
-  filter: blur(60px);
-  animation: nebulaMove 18s infinite alternate ease-in-out;
-}
-
-@keyframes nebulaMove{
-  0%{transform:scale(1) translate(0,0)}
-  100%{transform:scale(1.2) translate(-5%,5%)}
-}
-
-/* ===== المحتوى ===== */
-.container{
-  text-align:center;
-  max-width:700px;
-  margin:auto;
-  padding-top:60px;
-}
-
-/* توهج النص */
+/* العنوان */
 h1{
-  font-size:42px;
-  margin-bottom:10px;
-  text-shadow:0 0 15px #9a4dff,0 0 30px #4da6ff;
+margin-top:60px;
+font-size:40px;
+text-shadow:0 0 20px #a855ff;
 }
 
-.subtitle{
-  opacity:.8;
-  margin-bottom:30px;
+/* النقاط */
+#scoreBox{
+position:absolute;
+top:20px;
+left:20px;
+font-size:20px;
+background:rgba(0,0,0,0.4);
+padding:10px 15px;
+border-radius:10px;
+box-shadow:0 0 15px #6a4dff;
 }
 
-/* ===== القلب ثلاثي الشكل ===== */
+/* القلب */
 .heart{
-  width:120px;
-  height:120px;
-  background:#ff2b6a;
-  transform: rotate(-45deg);
-  margin:40px auto;
-  position:relative;
-  animation:beat 1s infinite;
-  box-shadow:0 0 30px #ff2b6a;
-  cursor:pointer;
+width:120px;
+height:120px;
+background:red;
+margin:40px auto;
+transform:rotate(-45deg);
+position:relative;
+animation:beat 1s infinite;
+cursor:pointer;
+box-shadow:0 0 25px red;
 }
 
-.heart:before,
-.heart:after{
-  content:"";
-  width:120px;
-  height:120px;
-  background:#ff2b6a;
-  border-radius:50%;
-  position:absolute;
+.heart:before,.heart:after{
+content:"";
+width:120px;
+height:120px;
+background:red;
+border-radius:50%;
+position:absolute;
 }
 
-.heart:before{top:-60px;left:0}
-.heart:after{left:60px;top:0}
+.heart:before{top:-60px}
+.heart:after{left:60px}
 
 @keyframes beat{
-  0%{transform:rotate(-45deg) scale(1)}
-  50%{transform:rotate(-45deg) scale(1.15)}
-  100%{transform:rotate(-45deg) scale(1)}
+0%{transform:rotate(-45deg) scale(1)}
+50%{transform:rotate(-45deg) scale(1.15)}
+100%{transform:rotate(-45deg) scale(1)}
 }
 
-.broken{
-  animation:breakHeart 1.2s forwards;
-}
-
-@keyframes breakHeart{
-  0%{transform:rotate(-45deg) scale(1)}
-  100%{
-    transform:rotate(-45deg) scale(.2);
-    opacity:0;
-  }
-}
-
-/* ===== الاختبار ===== */
+/* الاسئلة */
 .quiz{
-  display:none;
-  margin-top:20px;
+display:none;
+margin-top:30px;
 }
 
 .question{
-  font-size:22px;
-  margin-bottom:15px;
+font-size:24px;
+margin-bottom:20px;
 }
 
 button{
-  background:#1b1b3a;
-  color:white;
-  border:1px solid #6a4dff;
-  padding:12px 22px;
-  margin:6px;
-  border-radius:10px;
-  cursor:pointer;
-  font-size:16px;
-  transition:.3s;
-  box-shadow:0 0 10px rgba(106,77,255,0.6);
+padding:12px 25px;
+margin:8px;
+font-size:18px;
+background:#1d1d3a;
+border:1px solid #7a5cff;
+color:white;
+border-radius:10px;
+cursor:pointer;
+transition:0.3s;
+box-shadow:0 0 10px #7a5cff;
 }
 
 button:hover{
-  transform:scale(1.1);
-  box-shadow:0 0 25px #6a4dff;
+transform:scale(1.1);
+box-shadow:0 0 25px #7a5cff;
 }
 
-/* ===== الرسالة النهائية ===== */
-#finalMessage{
-  display:none;
-  margin-top:25px;
-  font-size:24px;
-  animation:fadeIn 2s;
-  text-shadow:0 0 20px #ff4dff;
+#result{
+margin-top:30px;
+font-size:26px;
+display:none;
+text-shadow:0 0 20px #ff4df0;
 }
-
-@keyframes fadeIn{
-  from{opacity:0; transform:translateY(20px)}
-  to{opacity:1; transform:translateY(0)}
-}
-
 </style>
 </head>
+
 <body>
 
+<div id="scoreBox">النقاط: <span id="score">0</span></div>
+
 <canvas id="stars"></canvas>
-<div class="nebula"></div>
 
-<div class="container">
-
-<h1>اختبار سري لمنية</h1>
-<div class="subtitle">هل تعرفينني حقاً؟ اضغطي على القلب لبدء الاختبار</div>
+<h1>اختبار منية السري</h1>
 
 <div class="heart" id="heart"></div>
 
 <div class="quiz" id="quiz">
 
-<div class="question">ما هو الشيء الذي أحبه أكثر؟</div>
+<div class="question" id="question"></div>
 
-<button onclick="answer(true)">التحدث معك</button>
-<button onclick="answer(false)">النوم</button>
-<button onclick="answer(false)">اللعب</button>
+<div id="answers"></div>
 
 </div>
 
-<div id="finalMessage">
-✨ يبدو أنك تعرفينني جيداً يا منية...  
-ربما بيننا قصة مميزة لم تبدأ بعد 💫
-</div>
-
-</div>
+<div id="result"></div>
 
 <script>
 
-/* ===== نجوم متحركة ===== */
-const canvas = document.getElementById("stars");
-const ctx = canvas.getContext("2d");
+/* النجوم */
+const canvas=document.getElementById("stars");
+const ctx=canvas.getContext("2d");
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
 
-let stars = [];
+let stars=[];
 
 for(let i=0;i<200;i++){
-  stars.push({
-    x:Math.random()*canvas.width,
-    y:Math.random()*canvas.height,
-    r:Math.random()*1.5
-  });
+stars.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+r:Math.random()*1.5
+});
 }
 
 function drawStars(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.clearRect(0,0,canvas.width,canvas.height);
 
-  ctx.fillStyle="white";
+ctx.fillStyle="white";
 
-  stars.forEach(s=>{
-    ctx.beginPath();
-    ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
-    ctx.fill();
+stars.forEach(s=>{
+ctx.beginPath();
+ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+ctx.fill();
 
-    s.y +=0.2;
-    if(s.y>canvas.height) s.y=0;
-  });
+s.y+=0.2;
+if(s.y>canvas.height)s.y=0;
+});
 
-  requestAnimationFrame(drawStars);
+requestAnimationFrame(drawStars);
 }
 
 drawStars();
 
-/* ===== القلب والاختبار ===== */
-const heart = document.getElementById("heart");
-const quiz = document.getElementById("quiz");
+/* النقاط */
+let score=0;
 
-heart.onclick = ()=>{
-  heart.classList.add("broken");
+function updateScore(){
+document.getElementById("score").innerText=score;
+}
 
-  setTimeout(()=>{
-    quiz.style.display="block";
-  },1000);
-};
+/* الاسئلة */
+const questions=[
+{
+q:"ما الشيء الذي أحبه أكثر؟",
+a:["التحدث معك","النوم","اللعب"],
+correct:0
+},
+{
+q:"هل أنا شخص لطيف؟",
+a:["نعم جدا","لا","أحيانا"],
+correct:0
+},
+{
+q:"هل هذه الصفحة صنعت خصيصا لك؟",
+a:["نعم","لا","لا أعلم"],
+correct:0
+}
+];
 
-function answer(correct){
+let current=0;
 
-if(correct){
- document.getElementById("finalMessage").style.display="block";
+function loadQuestion(){
+
+if(current>=questions.length){
+
+let result=document.getElementById("result");
+result.style.display="block";
+
+if(score==questions.length){
+result.innerHTML="🔥 منية تعرفني تماما! النتيجة: "+score;
 }else{
- alert("هممم... يبدو أنك لا تعرفينني جيداً 😅");
+result.innerHTML="✨ نتيجتك "+score+" من "+questions.length;
 }
 
+return;
 }
+
+let q=questions[current];
+
+document.getElementById("question").innerText=q.q;
+
+let answersHTML="";
+
+q.a.forEach((text,index)=>{
+answersHTML+=`<button onclick="answer(${index})">${text}</button>`;
+});
+
+document.getElementById("answers").innerHTML=answersHTML;
+
+}
+
+function answer(index){
+
+if(index===questions[current].correct){
+score++;
+updateScore();
+}
+
+current++;
+
+loadQuestion();
+
+}
+
+/* القلب يبدأ الاختبار */
+document.getElementById("heart").onclick=function(){
+this.style.display="none";
+document.getElementById("quiz").style.display="block";
+loadQuestion();
+};
 
 </script>
 
 </body>
-    </html>
+</html>
